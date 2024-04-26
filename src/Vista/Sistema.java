@@ -32,6 +32,8 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author USUARIO
  */
+
+
 public final class Sistema extends javax.swing.JFrame {
     Date fechaVenta = new Date();
     String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(fechaVenta);
