@@ -1,4 +1,3 @@
-
 package Modelo;
 
 public class login {
@@ -19,7 +18,7 @@ public class login {
         this.rol = rol;
     }
 
-
+    // Métodos getter y setter para id
     public int getId() {
         return id;
     }
@@ -28,6 +27,7 @@ public class login {
         this.id = id;
     }
 
+    // Métodos getter y setter para nombre
     public String getNombre() {
         return nombre;
     }
@@ -36,6 +36,7 @@ public class login {
         this.nombre = nombre;
     }
 
+    // Métodos getter y setter para correo
     public String getCorreo() {
         return correo;
     }
@@ -44,6 +45,7 @@ public class login {
         this.correo = correo;
     }
 
+    // Métodos getter y setter para pass
     public String getPass() {
         return pass;
     }
@@ -52,14 +54,12 @@ public class login {
         this.pass = pass;
     }
 
+    // Métodos getter y setter para rol
     public String getRol() {
         return rol;
     }
 
     public void setRol(String rol) {
         this.rol = rol;
-    }
-
-
-    
+    }   
 }

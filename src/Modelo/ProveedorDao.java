@@ -1,4 +1,3 @@
-
 package Modelo;
 
 import java.sql.Connection;
@@ -13,92 +12,105 @@ public class ProveedorDao {
     Conexion cn = new Conexion();
     PreparedStatement ps;
     ResultSet rs;
+    
+    // Método para registrar un proveedor en la base de datos
     public boolean RegistrarProveedor(Proveedor pr){
         String sql = "INSERT INTO proveedor(ruc, nombre, telefono, direccion) VALUES (?,?,?,?)";
         try {
-           con = cn.getConnection();
-           ps = con.prepareStatement(sql);
+           con = cn.getConnection(); // Obtiene la conexión a la base de datos
+           ps = con.prepareStatement(sql); // Prepara la consulta SQL
+           // Establece los valores de los parámetros en la consulta SQL
            ps.setString(1, pr.getRuc());
            ps.setString(2, pr.getNombre());
            ps.setString(3, pr.getTelefono());
            ps.setString(4, pr.getDireccion());
-           ps.execute();
-           return true;
+           ps.execute(); // Ejecuta la consulta SQL
+           return true; // Retorna true si la operación fue exitosa
         } catch (SQLException e) {
-            System.out.println(e.toString());
-            return false;
-        }finally{
+            System.out.println(e.toString()); // Imprime el error en caso de excepción
+            return false; // Retorna false si ocurre algún error
+        } finally {
             try {
-                con.close();
+                con.close(); // Cierra la conexión con la base de datos
             } catch (SQLException e) {
-                System.out.println(e.toString());
+                System.out.println(e.toString()); // Imprime el error en caso de excepción al cerrar la conexión
             }
         }
     }
     
+    // Método para listar todos los proveedores de la base de datos
     public List ListarProveedor(){
-        List<Proveedor> Listapr = new ArrayList();
-        String sql = "SELECT * FROM proveedor";
+        List<Proveedor> Listapr = new ArrayList(); // Crea una lista para almacenar los proveedores
+        String sql = "SELECT * FROM proveedor"; // Consulta SQL para obtener todos los proveedores
         try {
-            con = cn.getConnection();
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while (rs.next()) {                
-                Proveedor pr = new Proveedor();
+            con = cn.getConnection(); // Obtiene la conexión a la base de datos
+            ps = con.prepareStatement(sql); // Prepara la consulta SQL
+            rs = ps.executeQuery(); // Ejecuta la consulta SQL y obtiene el resultado
+            while (rs.next()) { // Itera sobre el resultado
+                Proveedor pr = new Proveedor(); // Crea un objeto Proveedor
+                // Establece los atributos del proveedor con los valores obtenidos de la consulta
                 pr.setId(rs.getInt("id"));
                 pr.setRuc(rs.getString("ruc"));
                 pr.setNombre(rs.getString("nombre"));
                 pr.setTelefono(rs.getString("telefono"));
                 pr.setDireccion(rs.getString("direccion"));
-                Listapr.add(pr);
+                Listapr.add(pr); // Agrega el proveedor a la lista
             }
-            
         } catch (SQLException e) {
-            System.out.println(e.toString());
-        }
-        return Listapr;
-    }
-    
-    public boolean EliminarProveedor(int id){
-        String sql = "DELETE FROM proveedor WHERE id = ? ";
-        try {
-            con = cn.getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.execute();
-            return true;
-        } catch (SQLException e) {
-            System.out.println(e.toString());
-            return false;
-        }finally{
+            System.out.println(e.toString()); // Imprime el error en caso de excepción
+        } finally {
             try {
-                con.close();
+                con.close(); // Cierra la conexión con la base de datos
             } catch (SQLException e) {
-                System.out.println(e.toString());
+                System.out.println(e.toString()); // Imprime el error en caso de excepción al cerrar la conexión
+            }
+        }
+        return Listapr; // Retorna la lista de proveedores
+    }
+    
+    // Método para eliminar un proveedor de la base de datos dado su ID
+    public boolean EliminarProveedor(int id){
+        String sql = "DELETE FROM proveedor WHERE id = ? "; // Consulta SQL para eliminar un proveedor por su ID
+        try {
+            con = cn.getConnection(); // Obtiene la conexión a la base de datos
+            ps = con.prepareStatement(sql); // Prepara la consulta SQL
+            ps.setInt(1, id); // Establece el valor del parámetro en la consulta SQL
+            ps.execute(); // Ejecuta la consulta SQL
+            return true; // Retorna true si la operación fue exitosa
+        } catch (SQLException e) {
+            System.out.println(e.toString()); // Imprime el error en caso de excepción
+            return false; // Retorna false si ocurre algún error
+        } finally {
+            try {
+                con.close(); // Cierra la conexión con la base de datos
+            } catch (SQLException e) {
+                System.out.println(e.toString()); // Imprime el error en caso de excepción al cerrar la conexión
             }
         }
     }
     
+    // Método para modificar los datos de un proveedor en la base de datos
     public boolean ModificarProveedor(Proveedor pr){
-        String sql = "UPDATE proveedor SET ruc=?, nombre=?, telefono=?, direccion=? WHERE id=?";
+        String sql = "UPDATE proveedor SET ruc=?, nombre=?, telefono=?, direccion=? WHERE id=?"; // Consulta SQL para modificar los datos de un proveedor
         try {
-            con = cn.getConnection();
-            ps = con.prepareStatement(sql);
+            con = cn.getConnection(); // Obtiene la conexión a la base de datos
+            ps = con.prepareStatement(sql); // Prepara la consulta SQL
+            // Establece los valores de los parámetros en la consulta SQL
             ps.setString(1, pr.getRuc());
             ps.setString(2, pr.getNombre());
             ps.setString(3, pr.getTelefono());
             ps.setString(4, pr.getDireccion());
             ps.setInt(5, pr.getId());
-            ps.execute();
-            return true;
+            ps.execute(); // Ejecuta la consulta SQL
+            return true; // Retorna true si la operación fue exitosa
         } catch (SQLException e) {
-            System.out.println(e.toString());
-            return false;
-        }finally{
-            try {
-                con.close();
+            System.out.println(e.toString()); // Imprime el error en caso de excepción
+            return false; // Retorna false si ocurre algún error
+        } finally {
+                 try {
+                con.close(); // Cierra la conexión con la base de datos
             } catch (SQLException e) {
-                System.out.println(e.toString());
+                System.out.println(e.toString()); // Imprime el error en caso de excepción al cerrar la conexión
             }
         }
     }

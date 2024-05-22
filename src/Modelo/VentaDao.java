@@ -1,5 +1,4 @@
-
-package Modelo;
+   package Modelo;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -35,6 +34,7 @@ public class VentaDao {
     ResultSet rs;
     int r;
     
+    // Método para obtener el último ID de venta registrado
     public int IdVenta(){
         int id = 0;
         String sql = "SELECT MAX(id) FROM ventas";
@@ -51,6 +51,7 @@ public class VentaDao {
         return id;
     }
     
+    // Método para registrar una nueva venta en la base de datos
     public int RegistrarVenta(Venta v){
         String sql = "INSERT INTO ventas (cliente, vendedor, total, fecha) VALUES (?,?,?,?)";
         try {
@@ -73,6 +74,7 @@ public class VentaDao {
         return r;
     }
     
+    // Método para registrar los detalles de una venta en la base de datos
     public int RegistrarDetalle(Detalle Dv){
        String sql = "INSERT INTO detalle (id_pro, cantidad, precio, id_venta) VALUES (?,?,?,?)";
         try {
@@ -95,6 +97,7 @@ public class VentaDao {
         return r;
     }
     
+    // Método para actualizar el stock de un producto después de una venta
     public boolean ActualizarStock(int cant, int id){
         String sql = "UPDATE productos SET stock = ? WHERE id = ?";
         try {
@@ -110,6 +113,7 @@ public class VentaDao {
         }
     }
     
+    // Método para obtener una lista de todas las ventas
     public List Listarventas(){
        List<Venta> ListaVenta = new ArrayList();
        String sql = "SELECT c.id AS id_cli, c.nombre, v.* FROM clientes c INNER JOIN ventas v ON c.id = v.cliente";
@@ -130,6 +134,8 @@ public class VentaDao {
        }
        return ListaVenta;
    }
+   
+    // Método para buscar una venta por su ID
     public Venta BuscarVenta(int id){
         Venta cl = new Venta();
         String sql = "SELECT * FROM ventas WHERE id = ?";
@@ -150,6 +156,8 @@ public class VentaDao {
         }
         return cl;
     }
+    
+    // Método para generar un PDF con los detalles de una venta
     public void pdfV(int idventa, int Cliente, double total, String usuario) {
         try {
             Date date = new Date();
@@ -163,8 +171,9 @@ public class VentaDao {
             Image img = Image.getInstance(getClass().getResource("/Img/logo_pdf.png"));
             //Fecha
             Paragraph fecha = new Paragraph();
-            Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLUE);
-            fecha.add(Chunk.NEWLINE);
+            Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLACK);
+
+fecha.add(Chunk.NEWLINE);
             fecha.add("Vendedor: " + usuario + "\nFolio: " + idventa + "\nFecha: "
                     + new SimpleDateFormat("dd/MM/yyyy").format(date) + "\n\n");
             PdfPTable Encabezado = new PdfPTable(4);
@@ -247,10 +256,10 @@ public class VentaDao {
             c2.setBorder(Rectangle.NO_BORDER);
             c3.setBorder(Rectangle.NO_BORDER);
             c4.setBorder(Rectangle.NO_BORDER);
-            c1.setBackgroundColor(BaseColor.LIGHT_GRAY);
-            c2.setBackgroundColor(BaseColor.LIGHT_GRAY);
-            c3.setBackgroundColor(BaseColor.LIGHT_GRAY);
-            c4.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            c1.setBackgroundColor(BaseColor.BLACK);
+            c2.setBackgroundColor(BaseColor.BLACK);
+            c3.setBackgroundColor(BaseColor.BLACK);
+            c4.setBackgroundColor(BaseColor.BLACK);
             tabla.addCell(c1);
             tabla.addCell(c2);
             tabla.addCell(c3);
@@ -287,7 +296,9 @@ public class VentaDao {
             Paragraph gr = new Paragraph();
             gr.add(Chunk.NEWLINE);
             gr.add(mensaje);
-            gr.setAlignment(Element.ALIGN_CENTER);
+           
+        
+gr.setAlignment(Element.ALIGN_CENTER);
             doc.add(gr);
             doc.close();
             archivo.close();
@@ -297,5 +308,4 @@ public class VentaDao {
         }
     }
 
-    
-}
+} 
