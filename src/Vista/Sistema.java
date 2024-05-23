@@ -646,6 +646,13 @@ public final class Sistema extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(TableVenta);
+        if (TableVenta.getColumnModel().getColumnCount() > 0) {
+            TableVenta.getColumnModel().getColumn(0).setPreferredWidth(25);
+            TableVenta.getColumnModel().getColumn(1).setPreferredWidth(300);
+            TableVenta.getColumnModel().getColumn(2).setPreferredWidth(25);
+            TableVenta.getColumnModel().getColumn(3).setPreferredWidth(25);
+            TableVenta.getColumnModel().getColumn(4).setPreferredWidth(25);
+        }
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 843, 191));
 
@@ -703,7 +710,7 @@ public final class Sistema extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "DNI/RUC", "NOMBRE", "TELÉFONO", "DIRECCIÓN"
+                "ID", "DUI", "NOMBRE", "TELÉFONO", "DIRECCIÓN"
             }
         ));
         TableCliente.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -713,11 +720,11 @@ public final class Sistema extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(TableCliente);
         if (TableCliente.getColumnModel().getColumnCount() > 0) {
-            TableCliente.getColumnModel().getColumn(0).setPreferredWidth(10);
+            TableCliente.getColumnModel().getColumn(0).setPreferredWidth(5);
             TableCliente.getColumnModel().getColumn(1).setPreferredWidth(50);
             TableCliente.getColumnModel().getColumn(2).setPreferredWidth(100);
             TableCliente.getColumnModel().getColumn(3).setPreferredWidth(50);
-            TableCliente.getColumnModel().getColumn(4).setPreferredWidth(80);
+            TableCliente.getColumnModel().getColumn(4).setPreferredWidth(100);
         }
 
         jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, 555, 330));
@@ -1047,14 +1054,14 @@ public final class Sistema extends javax.swing.JFrame {
         jScrollPane4.setViewportView(TableProducto);
         if (TableProducto.getColumnModel().getColumnCount() > 0) {
             TableProducto.getColumnModel().getColumn(0).setPreferredWidth(20);
-            TableProducto.getColumnModel().getColumn(1).setPreferredWidth(50);
-            TableProducto.getColumnModel().getColumn(2).setPreferredWidth(100);
-            TableProducto.getColumnModel().getColumn(3).setPreferredWidth(60);
-            TableProducto.getColumnModel().getColumn(4).setPreferredWidth(40);
-            TableProducto.getColumnModel().getColumn(5).setPreferredWidth(50);
+            TableProducto.getColumnModel().getColumn(1).setPreferredWidth(20);
+            TableProducto.getColumnModel().getColumn(2).setPreferredWidth(250);
+            TableProducto.getColumnModel().getColumn(3).setPreferredWidth(100);
+            TableProducto.getColumnModel().getColumn(4).setPreferredWidth(20);
+            TableProducto.getColumnModel().getColumn(5).setPreferredWidth(20);
         }
 
-        jPanel5.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, 590, 350));
+        jPanel5.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 630, 370));
 
         txtIdproducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1226,7 +1233,7 @@ public final class Sistema extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel5.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 250, 380));
+        jPanel5.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 250, 380));
 
         jTabbedPane1.addTab("4", jPanel5);
 
@@ -1251,7 +1258,7 @@ public final class Sistema extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(TableVentas);
         if (TableVentas.getColumnModel().getColumnCount() > 0) {
-            TableVentas.getColumnModel().getColumn(0).setPreferredWidth(20);
+            TableVentas.getColumnModel().getColumn(0).setPreferredWidth(10);
             TableVentas.getColumnModel().getColumn(1).setPreferredWidth(60);
             TableVentas.getColumnModel().getColumn(2).setPreferredWidth(60);
             TableVentas.getColumnModel().getColumn(3).setPreferredWidth(60);
@@ -1285,7 +1292,7 @@ public final class Sistema extends javax.swing.JFrame {
         jLabel45.setBackground(new java.awt.Color(255, 255, 255));
         jLabel45.setForeground(new java.awt.Color(255, 255, 255));
         jLabel45.setText("Selecciona una venta");
-        jPanel6.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, -1, -1));
+        jPanel6.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, -1, -1));
 
         jTabbedPane1.addTab("5", jPanel6);
 
@@ -1533,11 +1540,14 @@ public final class Sistema extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Nombre", "Correo", "Rol"
+                "Id", "Nombre", "Correo Usuario", "Rol"
             }
         ));
         TableUsuarios.setRowHeight(20);
         jScrollPane6.setViewportView(TableUsuarios);
+        if (TableUsuarios.getColumnModel().getColumnCount() > 0) {
+            TableUsuarios.getColumnModel().getColumn(0).setPreferredWidth(10);
+        }
 
         jPanel12.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 80, 550, 380));
 
