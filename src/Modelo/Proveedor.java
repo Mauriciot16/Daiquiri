@@ -2,18 +2,16 @@
 package Modelo;
 
 public class Proveedor {
-    private int id; // Identificador único del proveedor
-    private String ruc; // Número de RUC del proveedor
-    private String nombre; // Nombre del proveedor
-    private String telefono; // Número de teléfono del proveedor
-    private String direccion; // Dirección del proveedor
+    private int id;
+    private String ruc;
+    private String nombre;
+    private String telefono;
+    private String direccion;
     
-    // Constructor por defecto
     public Proveedor(){
         
     }
 
-    // Constructor con parámetros para inicializar todos los atributos
     public Proveedor(int id, String ruc, String nombre, String telefono, String direccion) {
         this.id = id;
         this.ruc = ruc;
@@ -22,7 +20,6 @@ public class Proveedor {
         this.direccion = direccion;
     }
 
-    // Métodos para acceder y modificar el ID del proveedor
     public int getId() {
         return id;
     }
@@ -31,7 +28,6 @@ public class Proveedor {
         this.id = id;
     }
 
-    // Métodos para acceder y modificar el RUC del proveedor
     public String getRuc() {
         return ruc;
     }
@@ -40,7 +36,6 @@ public class Proveedor {
         this.ruc = ruc;
     }
 
-    // Métodos para acceder y modificar el nombre del proveedor
     public String getNombre() {
         return nombre;
     }
@@ -49,7 +44,6 @@ public class Proveedor {
         this.nombre = nombre;
     }
 
-    // Métodos para acceder y modificar el teléfono del proveedor
     public String getTelefono() {
         return telefono;
     }
@@ -58,7 +52,6 @@ public class Proveedor {
         this.telefono = telefono;
     }
 
-    // Métodos para acceder y modificar la dirección del proveedor
     public String getDireccion() {
         return direccion;
     }
@@ -66,4 +59,5 @@ public class Proveedor {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+    
 }

@@ -1,20 +1,17 @@
-
 package Modelo;
 
 public class Venta {
-    private int id; // Identificador de la venta
-    private int cliente; // ID del cliente asociado a la venta
-    private String nombre_cli; // Nombre del cliente asociado a la venta
-    private String vendedor; // Nombre del vendedor responsable de la venta
-    private double total; // Total de la venta
-    private String fecha; // Fecha de la venta
-
-    // Constructor vacío
+    private int id;
+    private int cliente;
+    private String nombre_cli;
+    private String vendedor;
+    private double total;
+    private String fecha;
+    
     public Venta(){
-
+        
     }
 
-    // Constructor con todos los atributos
     public Venta(int id, int cliente, String nombre_cli, String vendedor, double total, String fecha) {
         this.id = id;
         this.cliente = cliente;
@@ -24,7 +21,6 @@ public class Venta {
         this.fecha = fecha;
     }
 
-    // Métodos para obtener y establecer los valores de los atributos
     public int getId() {
         return id;
     }
@@ -72,4 +68,8 @@ public class Venta {
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }
+
+    
+
+    
 }

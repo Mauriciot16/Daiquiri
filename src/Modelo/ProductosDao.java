@@ -8,130 +8,97 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * La clase ProductosDao proporciona métodos para interactuar con la tabla "productos" en la base de datos.
- * Permite registrar, listar, eliminar y modificar productos en la base de datos.
- */
 public class ProductosDao {
-    Connection con; // Objeto Connection para la conexión a la base de datos
-    Conexion cn = new Conexion(); // Instancia de la clase Conexion para establecer la conexión
+    Connection con;
+    Conexion cn = new Conexion();
+    PreparedStatement ps;
+    ResultSet rs;
     
-    PreparedStatement ps; // Objeto PreparedStatement para ejecutar consultas preparadas
-    ResultSet rs; // Objeto ResultSet para almacenar los resultados de las consultas
-    
-    /**
-     * Registra un nuevo producto en la base de datos.
-     * @param pro El producto a registrar.
-     * @return true si el registro fue exitoso, false si ocurrió un error.
-     */
     public boolean RegistrarProductos(Productos pro){
-        String sql = "INSERT INTO productos (codigo, nombre, proveedor, stock, precio) VALUES (?,?,?,?,?)"; // Consulta SQL para insertar un nuevo producto
+        String sql = "INSERT INTO productos (codigo, nombre, proveedor, stock, precio) VALUES (?,?,?,?,?)";
         try {
-            con = cn.getConnection(); // Establece la conexión a la base de datos
-            ps = con.prepareStatement(sql); // Prepara la consulta SQL
-            // Establece los parámetros de la consulta con los datos del producto
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
             ps.setString(1, pro.getCodigo());
             ps.setString(2, pro.getNombre());
             ps.setInt(3, pro.getProveedor());
             ps.setInt(4, pro.getStock());
             ps.setDouble(5, pro.getPrecio());
-            ps.execute(); // Ejecuta la consulta
-            return true; // Retorna true si la operación fue exitosa
+            ps.execute();
+            return true;
         } catch (SQLException e) {
-            System.out.println(e.toString()); // Imprime cualquier error SQL en la consola
-            return false; // Retorna false si ocurrió un error
+            System.out.println(e.toString());
+            return false;
         }
     }
     
-    /**
-     * Obtiene una lista de todos los productos en la base de datos.
-     * @return Una lista de objetos Productos que representan los productos en la base de datos.
-     */
     public List ListarProductos(){
-        List<Productos> Listapro = new ArrayList(); // Lista para almacenar los productos
-        String sql = "SELECT pr.id AS id_proveedor, pr.nombre AS nombre_proveedor, p.* FROM proveedor pr INNER JOIN productos p ON pr.id = p.proveedor ORDER BY p.id DESC"; // Consulta SQL para obtener los productos
-        try {
-            con = cn.getConnection(); // Establece la conexión a la base de datos
-            ps = con.prepareStatement(sql); // Prepara la consulta SQL
-            rs = ps.executeQuery(); // Ejecuta la consulta y obtiene los resultados
-            // Itera sobre los resultados y crea objetos Productos con los datos obtenidos
-            while (rs.next()) {               
-                Productos pro = new Productos();
-                pro.setId(rs.getInt("id"));
-                pro.setCodigo(rs.getString("codigo"));
-                pro.setNombre(rs.getString("nombre"));
-                pro.setProveedor(rs.getInt("id_proveedor"));
-                pro.setProveedorPro(rs.getString("nombre_proveedor"));
-                pro.setStock(rs.getInt("stock"));
-                pro.setPrecio(rs.getDouble("precio"));
-                Listapro.add(pro); // Agrega el producto a la lista
-            }
-        } catch (SQLException e) {
-            System.out.println(e.toString()); // Imprime cualquier error SQL en la consola
-        } finally {
-            try {
-                con.close(); // Cierra la conexión a la base de datos
-            } catch (SQLException ex) {
-                System.out.println(ex.toString()); // Imprime cualquier error de cierre de conexión en la consola
-            }
-        }
-        return Listapro; // Retorna la lista de productos
-    }
+       List<Productos> Listapro = new ArrayList();
+       String sql = "SELECT pr.id AS id_proveedor, pr.nombre AS nombre_proveedor, p.* FROM proveedor pr INNER JOIN productos p ON pr.id = p.proveedor ORDER BY p.id DESC";
+       try {
+           con = cn.getConnection();
+           ps = con.prepareStatement(sql);
+           rs = ps.executeQuery();
+           while (rs.next()) {               
+               Productos pro = new Productos();
+               pro.setId(rs.getInt("id"));
+               pro.setCodigo(rs.getString("codigo"));
+               pro.setNombre(rs.getString("nombre"));
+               pro.setProveedor(rs.getInt("id_proveedor"));
+               pro.setProveedorPro(rs.getString("nombre_proveedor"));
+               pro.setStock(rs.getInt("stock"));
+               pro.setPrecio(rs.getDouble("precio"));
+               Listapro.add(pro);
+           }
+       } catch (SQLException e) {
+           System.out.println(e.toString());
+       }
+       return Listapro;
+   }
     
-    /**
-     * Elimina un producto de la base de datos.
-     * @param id El ID del producto a eliminar.
-     * @return true si la eliminación fue exitosa, false si ocurrió un error.
-     */
     public boolean EliminarProductos(int id){
-        String sql = "DELETE FROM productos WHERE id = ?"; // Consulta SQL para eliminar un producto por su ID
-        try {
-            ps = con.prepareStatement(sql); // Prepara la consulta SQL
-            ps.setInt(1, id); // Establece el parámetro ID en la consulta
-            ps.execute(); // Ejecuta la consulta
-            return true; // Retorna true si la operación fue exitosa
-        } catch (SQLException e) {
-            System.out.println(e.toString()); // Imprime cualquier error SQL en la consola
-            return false; // Retorna false si ocurrió un error
-        } finally {
-            try {
-                con.close(); // Cierra la conexión a la base de datos
-            } catch (SQLException ex) {
-                System.out.println(ex.toString()); // Imprime cualquier error de cierre de conexión en la consola
-            }
-        }
-    }
+       String sql = "DELETE FROM productos WHERE id = ?";
+       try {
+           ps = con.prepareStatement(sql);
+           ps.setInt(1, id);
+           ps.execute();
+           return true;
+       } catch (SQLException e) {
+           System.out.println(e.toString());
+           return false;
+       }finally{
+           try {
+               con.close();
+           } catch (SQLException ex) {
+               System.out.println(ex.toString());
+           }
+       }
+   }
     
-    /**
-     * Modifica la información de un producto en la base de datos.
-     * @param pro El producto con la información actualizada.
-     * @return true si la modificación fue exitosa, false si ocurrió un error.
-     */
     public boolean ModificarProductos(Productos pro){
-        String sql = "UPDATE productos SET codigo=?, nombre=?, proveedor=?, stock=?, precio=? WHERE id=?"; // Consulta SQL para actualizar un producto
-        try {
-            ps = con.prepareStatement(sql); // Prepara la consulta SQL
-            // Establece los parámetros de la consulta con los datos actualizados del producto
-            ps.setString(1, pro.getCodigo());
-            ps.setString(2, pro.getNombre());
-            ps.setInt(3, pro.getProveedor());
-            ps.setInt(4, pro.getStock());
-            ps.setDouble(5, pro.getPrecio());
-            ps.setInt(6, pro.getId());
-            ps.execute(); // Ejecuta la consulta
-            return true; // Retorna true si la operación fue exitosa
-        } catch (SQLException e) {
-            System.out.println(e.toString()); // Imprime cualquier error SQL en la consola
-            return false; // Retorna false si ocurrió un error
-        } finally {
-            try {
-                con.close(); // Cierra la conexión a la base de datos
-            } catch (SQLException e) {
-                System.out.println(e.toString()); // Imprime cualquier error de cierre de conexión en la consola
-            }
-        }
-    }
-     // Método para buscar un producto por su código
+       String sql = "UPDATE productos SET codigo=?, nombre=?, proveedor=?, stock=?, precio=? WHERE id=?";
+       try {
+           ps = con.prepareStatement(sql);
+           ps.setString(1, pro.getCodigo());
+           ps.setString(2, pro.getNombre());
+           ps.setInt(3, pro.getProveedor());
+           ps.setInt(4, pro.getStock());
+           ps.setDouble(5, pro.getPrecio());
+           ps.setInt(6, pro.getId());
+           ps.execute();
+           return true;
+       } catch (SQLException e) {
+           System.out.println(e.toString());
+           return false;
+       }finally{
+           try {
+               con.close();
+           } catch (SQLException e) {
+               System.out.println(e.toString());
+           }
+       }
+   }
+    
     public Productos BuscarPro(String cod){
         Productos producto = new Productos();
         String sql = "SELECT * FROM productos WHERE codigo = ?";
@@ -151,8 +118,6 @@ public class ProductosDao {
         }
         return producto;
     }
-    
-    // Método para buscar un producto por su ID
     public Productos BuscarId(int id){
         Productos pro = new Productos();
         String sql = "SELECT pr.id AS id_proveedor, pr.nombre AS nombre_proveedor, p.* FROM proveedor pr INNER JOIN productos p ON p.proveedor = pr.id WHERE p.id = ?";
@@ -175,8 +140,6 @@ public class ProductosDao {
         }
         return pro;
     }
-    
-    // Método para buscar un proveedor por su nombre
     public Proveedor BuscarProveedor(String nombre){
         Proveedor pr = new Proveedor();
         String sql = "SELECT * FROM proveedor WHERE nombre = ?";
@@ -193,8 +156,6 @@ public class ProductosDao {
         }
         return pr;
     }
-    
-    // Método para buscar los datos de configuración
     public Config BuscarDatos(){
         Config conf = new Config();
         String sql = "SELECT * FROM config";
@@ -216,7 +177,6 @@ public class ProductosDao {
         return conf;
     }
     
-    // Método para modificar los datos de configuración
     public boolean ModificarDatos(Config conf){
        String sql = "UPDATE config SET ruc=?, nombre=?, telefono=?, direccion=?, mensaje=? WHERE id=?";
        try {
@@ -232,7 +192,7 @@ public class ProductosDao {
        } catch (SQLException e) {
            System.out.println(e.toString());
            return false;
-       } finally {
+       }finally{
            try {
                con.close();
            } catch (SQLException e) {
