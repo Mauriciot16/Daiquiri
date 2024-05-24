@@ -80,7 +80,8 @@ public final class Sistema extends javax.swing.JFrame {
         if (priv.getRol().equals("Asistente")) {
             btnConfig.setEnabled(false);
             btnProveedor.setEnabled(false);
-            btnUsuario.setEnabled(false);        
+            btnUsuario.setEnabled(false);  
+            btnProductos.setEnabled(false);
             LabelVendedor.setText(priv.getNombre());
         }else{
             LabelVendedor.setText(priv.getNombre());
