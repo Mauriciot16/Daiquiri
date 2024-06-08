@@ -73,27 +73,88 @@ public class VentaDao {
         return r;
     }
     
-    public int RegistrarDetalle(Detalle Dv){
-       String sql = "INSERT INTO detalle (id_pro, cantidad, precio, id_venta) VALUES (?,?,?,?)";
-        try {
-            con = cn.getConnection();
-            ps = con.prepareStatement(sql);
+  public int RegistrarDetalle(Detalle Dv){
+    String sqlCheck = "SELECT cantidad, precio FROM detalle WHERE id_pro = ? AND id_venta = ?";
+    String sqlInsert = "INSERT INTO detalle (id_pro, cantidad, precio, id_venta) VALUES (?,?,?,?)";
+    String sqlUpdate = "UPDATE detalle SET cantidad = ?, precio = ? WHERE id_pro = ? AND id_venta = ?";
+    String sqlStock = "SELECT stock FROM productos WHERE id = ?";
+    String sqlValidarProducto = "SELECT COUNT(*) FROM productos WHERE id = ?";
+    
+    try {
+        con = cn.getConnection();
+        
+        // Validar que el producto existe
+        ps = con.prepareStatement(sqlValidarProducto);
+        ps.setInt(1, Dv.getId_pro());
+        rs = ps.executeQuery();
+        if (rs.next() && rs.getInt(1) == 0) {
+            // El producto no existe
+            System.out.println("El código del producto no es válido.");
+            return -1;
+        }
+
+        // Comprobar stock actual del producto
+        ps = con.prepareStatement(sqlStock);
+        ps.setInt(1, Dv.getId_pro());
+        rs = ps.executeQuery();
+        int stockActual = 0;
+        if (rs.next()) {
+            stockActual = rs.getInt("stock");
+        }
+        
+        // Validar que el stock no quede negativo
+        if (stockActual < Dv.getCantidad()) {
+            System.out.println("No hay suficiente stock para el producto: " + Dv.getId_pro());
+            return -1;
+        }
+
+        // Verificar si el producto ya existe en el detalle de la venta
+        ps = con.prepareStatement(sqlCheck);
+        ps.setInt(1, Dv.getId_pro());
+        ps.setInt(2, Dv.getId());
+        rs = ps.executeQuery();
+        
+        if (rs.next()) {
+            // Producto ya existe, actualizar cantidad y precio
+            int nuevaCantidad = rs.getInt("cantidad") + Dv.getCantidad();
+            double nuevoPrecio = rs.getDouble("precio");  // Asume que el precio no cambia. Ajustar si es necesario.
+            
+            ps = con.prepareStatement(sqlUpdate);
+            ps.setInt(1, nuevaCantidad);
+            ps.setDouble(2, nuevoPrecio);
+            ps.setInt(3, Dv.getId_pro());
+            ps.setInt(4, Dv.getId());
+        } else {
+            // Producto no existe, insertar nuevo detalle
+            ps = con.prepareStatement(sqlInsert);
             ps.setInt(1, Dv.getId_pro());
             ps.setInt(2, Dv.getCantidad());
             ps.setDouble(3, Dv.getPrecio());
             ps.setInt(4, Dv.getId());
-            ps.execute();
+        }
+        
+        ps.execute();
+
+        // Actualizar el stock del producto
+        String sqlUpdateStock = "UPDATE productos SET stock = ? WHERE id = ?";
+        ps = con.prepareStatement(sqlUpdateStock);
+        ps.setInt(1, stockActual - Dv.getCantidad());
+        ps.setInt(2, Dv.getId_pro());
+        ps.execute();
+
+    } catch (SQLException e) {
+        System.out.println(e.toString());
+        return -1;
+    } finally {
+        try {
+            con.close();
         } catch (SQLException e) {
             System.out.println(e.toString());
-        }finally{
-            try {
-                con.close();
-            } catch (SQLException e) {
-                System.out.println(e.toString());
-            }
         }
-        return r;
     }
+    return r;
+}
+
     
     public boolean ActualizarStock(int cant, int id){
         String sql = "UPDATE productos SET stock = ? WHERE id = ?";

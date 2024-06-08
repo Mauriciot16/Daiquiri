@@ -15,18 +15,9 @@ public class Cliente {
     private String nombre;
     private String telefono;
     private String direccion;
+    private String correo; // nuevo atributo
 
-    public Cliente() {
-    }
-
-    public Cliente(int id, String dni, String nombre, String telefono, String direccion) {
-        this.id = id;
-        this.dni = dni;
-        this.nombre = nombre;
-        this.telefono = telefono;
-        this.direccion = direccion;
-    }
-
+    // getters y setters para todos los atributos, incluyendo correo
     public int getId() {
         return id;
     }
@@ -66,5 +57,12 @@ public class Cliente {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-    
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
 }
